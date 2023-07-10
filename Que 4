@@ -1,0 +1,151 @@
+Build a responsive Navbar, on smaller screens it should be a hamburger menu which on click should reveal the menu items nicely, and on larger screens they should be displayed directly on the screen.
+
+HTML
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Navbar</title>
+  <link rel="stylesheet" type="text/css" href="four.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-header">
+      <span class="navbar-brand">Logo</span>
+      <button class="navbar-toggler" id="navbar-toggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    <ul class="navbar-menu" id="navbar-menu">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <script src="four.js"></script>
+</body>
+</html>
+
+CSS
+
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  .navbar-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand {
+    margin-right: 20px;
+    font-size: 1.2rem;
+  }
+  
+  .navbar-menu {
+    display: flex;
+    list-style: none;
+  }
+  
+  .navbar-menu li {
+    margin-right: 10px;
+  }
+  
+  .navbar-menu li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  /* Hamburger menu styles */
+  .navbar-toggler {
+    display: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .navbar-toggler-icon {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: #fff;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .navbar-toggler-icon:before,
+  .navbar-toggler-icon:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    transition: transform 0.3s ease;
+  }
+  
+  .navbar-toggler-icon:before {
+    transform: translateY(-6px);
+  }
+  
+  .navbar-toggler-icon:after {
+    transform: translateY(6px);
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .navbar-menu {
+      display: none;
+    }
+  
+    .navbar-toggler {
+      display: block;
+    }
+  
+    .navbar-active .navbar-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar-active .navbar-menu li {
+      margin-bottom: 10px;
+    }
+  
+    .navbar-active .navbar-toggler-icon {
+      transform: rotate(90deg);
+    }
+  
+    .navbar-active .navbar-toggler-icon:before {
+      transform: rotate(45deg) translateY(6px);
+    }
+  
+    .navbar-active .navbar-toggler-icon:after {
+      transform: rotate(-45deg) translateY(-6px);
+    }
+  }
+
+
+JS
+
+const navbarToggler = document.getElementById('navbar-toggler');
+const navbarMenu = document.getElementById('navbar-menu');
+
+navbarToggler.addEventListener('click', function() {
+  navbarMenu.classList.toggle('navbar-active');
+});
+
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) {
+    navbarMenu.classList.remove('navbar-active');
+  }
+});

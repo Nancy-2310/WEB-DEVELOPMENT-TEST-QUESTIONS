@@ -1,0 +1,177 @@
+ Create a form with proper form validation using JavaScript (name, email, phone number, password, age, gender, date, color picker)
+
+HTML
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+  <link rel="stylesheet" href="five.css">
+</head>
+<body>
+  <h1>Form Validation</h1>
+  <form id="myForm" onsubmit="validateForm(event)">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <span id="nameError" class="error"></span><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error"></span><br><br>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+    <span id="phoneError" class="error"></span><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <span id="passwordError" class="error"></span><br><br>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="18" max="99" required>
+    <span id="ageError" class="error"></span><br><br>
+
+    <label for="gender">Gender:</label>
+    <select id="gender" name="gender" required>
+      <option value=""></option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+    <span id="genderError" class="error"></span><br><br>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <span id="dateError" class="error"></span><br><br>
+
+    <label for="color">Favorite Color:</label>
+    <input type="color" id="color" name="color" required>
+    <span id="colorError" class="error"></span><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+  <script src="five.js"></script>
+</body>
+</html>
+
+CSS
+
+.error {
+    color: red;
+  }
+
+JS
+
+
+  function validateForm(event) {
+    event.preventDefault(); // Prevent form submission
+  
+    // Reset error messages
+    document.querySelectorAll('.error').forEach((error) => {
+      error.textContent = '';
+    });
+  
+    // Get form values
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const password = document.getElementById('password').value;
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const date = document.getElementById('date').value;
+    const color = document.getElementById('color').value;
+  
+    let isValid = true;
+  
+    // Name validation
+    if (name === '') {
+      document.getElementById('nameError').textContent = 'Name is required.';
+      isValid = false;
+    }
+  
+    // Email validation
+    if (!isValidEmail(email)) {
+      document.getElementById('emailError').textContent = 'Invalid email address.';
+      isValid = false;
+    }
+  
+    // Phone number validation
+    if (!isValidPhoneNumber(phone)) {
+      document.getElementById('phoneError').textContent = 'Invalid phone number. Enter 10 digits.';
+      isValid = false;
+    }
+  
+    // Password validation
+    if (!isValidPassword(password)) {
+      document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long.';
+      isValid = false;
+    }
+  
+    // Age validation
+    if (!isValidAge(age)) {
+      document.getElementById('ageError').textContent = 'Age must be between 18 and 99.';
+      isValid = false;
+    }
+  
+    // Gender validation
+    if (gender === '') {
+      document.getElementById('genderError').textContent = 'Please select a gender.';
+      isValid = false;
+    }
+  
+    // Date validation
+    if (!isValidDate(date)) {
+      document.getElementById('dateError').textContent = 'Invalid date.';
+      isValid = false;
+    }
+  
+    // Color validation
+    if (!isValidColor(color)) {
+      document.getElementById('colorError').textContent = 'Invalid color.';
+      isValid = false;
+    }
+  
+    if (isValid) {
+      // Form is valid, do further processing or submission
+      console.log('Form is valid. Submitting...');
+    }
+    document.getElementById('myForm').reset();
+  }
+  
+  function isValidEmail(email) {
+    // Simple email validation regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
+  
+  function isValidPhoneNumber(phone) {
+    // Phone number validation regex pattern: 10 digits
+    const phonePattern = /^\d{10}$/;
+    return phonePattern.test(phone);
+  }
+  
+  function isValidPassword(password) {
+    // Password validation: At least 8 characters
+    return password.length >= 8;
+  }
+  
+  function isValidAge(age) {
+    const parsedAge = parseInt(age, 10);
+    return parsedAge >= 18 && parsedAge <= 99;
+  }
+  
+  function isValidDate(date) {
+    // Date validation: Check if it's a valid date object
+    const parsedDate = new Date(date);
+    return !isNaN(parsedDate.getTime());
+  }
+  
+  function isValidColor(color) {
+    // Color validation: Check if it's a valid hexadecimal color code
+    const colorPattern = /^#[0-9A-Fa-f]{6}$/;
+    return colorPattern.test(color);
+  }
+  
+  const form = document.getElementById('myForm');
+  form.addEventListener('submit', validateForm);
+

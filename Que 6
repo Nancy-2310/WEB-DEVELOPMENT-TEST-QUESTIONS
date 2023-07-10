@@ -1,0 +1,97 @@
+Create a custom modal window using HTML, CSS, and JavaScript. On clicking a button the modal window should appear and the user can click outside the modal window to close the modal along with a close button which is
+inside the modal. Also when the modal is open the window should not be scrollable.
+
+HTML
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom Modal Window</title>
+  <link rel="stylesheet" type="text/css" href="six.css">
+</head>
+<body>
+  <button id="openModalBtn">Open Modal</button>
+
+  <div id="modalOverlay">
+    <div id="modalContent">
+      <span class="closeButton">&times;</span>
+      <h2>Modal Window</h2>
+      <p>This is a custom modal window.</p>
+    </div>
+  </div>
+
+  <script src="six.js"></script>
+</body>
+</html>
+
+CSS
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  #openModalBtn {
+    margin: 20px;
+  }
+  
+  #modalOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  
+  #modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 400px;
+    height: 200px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  /* Disable scrolling when the modal is open */
+  body.modal-open {
+    overflow: hidden;
+  }
+
+JS
+const openModalBtn = document.getElementById('openModalBtn');
+const modalOverlay = document.getElementById('modalOverlay');
+const closeButton = document.querySelector('.closeButton');
+
+openModalBtn.addEventListener('click', function() {
+  modalOverlay.style.display = 'block';
+  document.body.classList.add('modal-open');
+});
+
+closeButton.addEventListener('click', function() {
+  modalOverlay.style.display = 'none';
+  document.body.classList.remove('modal-open');
+});
+
+modalOverlay.addEventListener('click', function(event) {
+  if (event.target === modalOverlay) {
+    modalOverlay.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  }
+});
